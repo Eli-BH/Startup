@@ -1,28 +1,3 @@
-export const prompt: string = `
-Act as if you are a Senior level software developer
-with 30 years of experience as a developer, recruiter,
-and teacer. Suggest to me 4 ${"beginner"}-level projects
-that I can complete in s ${"short"} amount of time using the
-technologies listed in this array ${["React", "mongodb", "css"]}.
-Please format your response with the following details for each project:
-array of JSON opbjects with the following keys:
-
-- Title: <Name of the project>
-- Technologies: 
-  [
-    { title: "Technology Name", techType: "Type of Technology", purposeInProject: "Description of how it's used in the project" }
-  ]
-- Project Description: <Brief description of the project>
-- Approx Duration: <Estimated time to complete the project>
-- Documentation Needed: [<Link to relevant documentation>]
-- Terminal Command to Start: <e.g., npx create-react-app my-app>
-- Resources: [<Links to additional resources or guides>]
-- Project Difficulty Level: <e.g., Beginner>
-
-The projects should be for a(n) ${"beginner"}, achievable within a ${"short"} timeframe, and should help in practicing development skills.
-Do not respond anything other thatn the 4 projects. Do not include any other information in the response other than the 4 projects
-`;
-
 export const formattedPrompt = (
   difficulty: string,
   duration: string,
