@@ -40,7 +40,8 @@ export default function Response() {
           ),
         },
       ],
-      model: "gpt-4",
+      model: "gpt-3.5-turbo-0125",
+      max_tokens: 1500,
     });
 
     return JSON.parse(chatCompletion?.choices[0]?.message?.content || "");
@@ -51,7 +52,6 @@ export default function Response() {
 
     callOpenAi()
       .then((res) => {
-        console.log({ res });
         setData(res);
         setLoading(false);
       })
