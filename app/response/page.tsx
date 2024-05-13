@@ -5,9 +5,12 @@ import { RootState } from "@/redux/store";
 import { motion as m } from "framer-motion";
 import { ProjectI } from "@/utils/interfaces";
 import ResponseCard from "@/components/ResponseCard";
+import OpenAI from "openai";
 
 import ProjectCard from "@/components/ProjectCard";
 import Image from "next/image";
+import { formattedPrompt } from "@/utils/strings";
+import { diff, len } from "@/utils/arrys";
 
 export default function Response() {
   const [error, setError] = useState(false);
@@ -17,35 +20,46 @@ export default function Response() {
 
   const startup = useSelector((state: RootState) => state.startup);
 
+  const callOpenAi = async () => {
+    const openai = new OpenAI({
+      apiKey: process.env["NEXT_PUBLIC_OPENAI_KEY"],
+      dangerouslyAllowBrowser: true,
+    });
+
+    const difficulty = diff[startup.difficulty];
+    const duration = len[startup.length];
+
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: formattedPrompt(
+            difficulty,
+            duration,
+            startup.values.map((item) => item.name) as []
+          ),
+        },
+      ],
+      model: "gpt-4",
+    });
+
+    return JSON.parse(chatCompletion?.choices[0]?.message?.content || "");
+  };
+
   useEffect(() => {
     setLoading(true);
-    const fetchApi = async () => {
-      try {
-        const response = await fetch("/api", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            duration: startup.length,
-            difficulty: startup.difficulty,
-            values: startup.values.map((item) => item.name),
-          }),
-        });
 
-        if (!response.ok) {
-          setError(true);
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const responseData = await response.json();
-        setData(responseData.data);
+    callOpenAi()
+      .then((res) => {
+        console.log({ res });
+        setData(res);
         setLoading(false);
-      } catch (error: any) {
+      })
+      .catch((error) => {
+        console.error("error", error);
         setError(true);
         setLoading(false);
-      }
-    };
-
-    fetchApi();
+      });
 
     return () => {
       setData([]);
@@ -53,6 +67,8 @@ export default function Response() {
       setError(false);
     };
   }, [startup]);
+
+  console.log(data);
 
   return (
     <m.main
@@ -83,7 +99,7 @@ export default function Response() {
         <p>Error</p>
       ) : !currProject.title ? (
         <div className="xl:w-1/2   w-full h-full lg:p-10  p-2 grid place-items-center gap-10 xl:gap-20  xl:grid-cols-2 grid-cols-1 xl:grid-rows-2 grid-rows-1">
-          {data.length > 0 &&
+          {data?.length > 0 &&
             data.map((project: ProjectI, index: number) => (
               <ResponseCard
                 project={project}
