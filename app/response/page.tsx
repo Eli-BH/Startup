@@ -4,8 +4,8 @@ import { useAppSelector as useSelector } from "@/redux/hooks";
 import { RootState } from "@/redux/store";
 import { motion as m } from "framer-motion";
 import { ProjectI } from "@/utils/interfaces";
+import ResponseCard from "@/components/ResponseCard";
 
-import ResponseCards from "@/components/ResponseCard";
 import ProjectCard from "@/components/ProjectCard";
 import Image from "next/image";
 
@@ -82,7 +82,16 @@ export default function Response() {
       ) : error ? (
         <p>Error</p>
       ) : !currProject.title ? (
-        <ResponseCards data={data} setCurrProject={setCurrProject} />
+        <div className="xl:w-1/2   w-full h-full lg:p-10  p-2 grid place-items-center gap-10 xl:gap-20  xl:grid-cols-2 grid-cols-1 xl:grid-rows-2 grid-rows-1">
+          {data.length > 0 &&
+            data.map((project: ProjectI, index: number) => (
+              <ResponseCard
+                project={project}
+                index={index}
+                setCurrProject={setCurrProject}
+              />
+            ))}
+        </div>
       ) : (
         <ProjectCard data={[currProject]} setCurrProject={setCurrProject} />
       )}

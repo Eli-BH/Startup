@@ -42,10 +42,10 @@ export const formattedPrompt = (
       [
         { name: "Technology Name", version: "Version of the tech blank if none", techType: "Type of Technology", purposeInProject: "Description of how it's used in the project" , url: "link to the tech" }
       ]
-    - projectDescription: <Brief description of the project about 1 paragraph explaining what will be learned, and what the technologies are for in the project>
+    - projectDescription: <Brief description of the project about 2 paragraphs max explaining how to start, some tips,  and what the technologies are for in the project>
     - approxDuration: <Estimated time to complete the project>
     - documentationNeeded: [<Link to relevant documentation>]
-    - terminalCommands: <e.g., npx create-react-app my-app>
+    - terminalCommands: <e.g., npx create-react-app my-app> | none if not needed
     - resources: [<Links to additional resources or guides>]
     - difficultyLevel: <e.g., Beginner>
     
@@ -54,25 +54,5 @@ export const formattedPrompt = (
     Make sure to include all information in the response. if there is a terminal command to get the project started, make sure to include it.
     It is also extremely import that the projects use the tecnologies listed in the array. If the array is empty, assume that the project can use any technology.
 
-
-    here are interfaces to help you format the response:
-    interface Project {
-      title: string;
-      approxDuration: string;
-      documentationNeeded: string[];
-      projectDescription: string;
-      difficultyLevel: string;
-      resources: string[];
-      technologies: Technology[];
-      terminalCommands: string;
-    }
-    
-    interface Technology {
-      name: string;
-      version: string;
-      url: string;
-      puposeInProject: string;
-      techType: string;
-    }
     `;
 };
