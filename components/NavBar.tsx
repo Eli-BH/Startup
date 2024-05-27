@@ -45,7 +45,7 @@ const NavBar = () => {
   return (
     <div
       className={`h-16 lg:h-32 w-full dark:text-white text-black absolute top-0 left-0 right-0
-        flex items-center justify-between  px-10  xl:px-80 lg:px-40  text-2xl font-bold1  ${bungee.className}`}
+        flex items-center justify-between  px-10  xl:px-80 lg:px-40  text-2xl font-bold  ${bungee.className}`}
     >
       <Link href="/">
         <motion.span
